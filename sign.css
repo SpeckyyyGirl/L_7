@@ -50,7 +50,7 @@ input:focus{
     transform: translate(30px,40px);
 }
 .title p{
-    color: rgb(0, 0, 255);
+    color: rgb(102, 35, 131);
     font-weight: 600;
     font-size: 1.2em;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

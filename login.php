@@ -19,17 +19,18 @@
             require('./database.php');
             if (isset($_POST['login_button'])) {
                 $_SESSION['validate']=false;
-                $name=$_POST['name'];
+                $matric=$_POST['matric'];
                 $password=$_POST['password'];
-                $p=crud::conect()->prepare('SELECT * FROM crudtable WHERE name=:n and pass=:p');
-                $p->bindValue(':n',$name);
+                $p=crud::database()->prepare('SELECT * FROM users WHERE matric=:m and password=:p');
+                $p->bindValue(':m',$matric);
                 $p->bindValue(':p',$password);
                 $p->execute();
                 $d=$p->fetchAll(PDO::FETCH_ASSOC);
                 if ($p->rowCount()>0) {
-                    $_SESSION['name']=$name;
-                    $_SESSION['pass']=$password;
+                    $_SESSION['matric']=$matric;
+                    $_SESSION['password']=$password;
                     $_SESSION['validate']=true;
+                    echo 'Successfully logged!';
                     header('location:website.php');
                 }else {
                     echo'Make sure that you are registered!';
@@ -42,7 +43,7 @@
             <p>Login form</p>
         </div>
         <form action="" method="post">
-            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="matric" placeholder="Matric">
             <input type="text" name="password" placeholder="Password">
             <input type="submit" value="Login" name="login_button"> 
             <a href="./signUP.php" style="position:relative; left:50px;top:-8px; font-size:14px">Click here to sign up</a>
