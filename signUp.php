@@ -45,7 +45,7 @@
                 <option value="" disabled selected>Select your role</option>
                 <option value="student">Student</option>
                 <option value="lecturer">Lecturer</option></select>
-            <input type="text" name="confiPassword" placeholder="Confrim password">
+            <input type="password" name="confiPassword" placeholder="Confirm password">
             
             <input type="submit" value="Sign UP" name="signUP_button"> 
             <a href="./login.php">Do you have account? Sign in</a>
