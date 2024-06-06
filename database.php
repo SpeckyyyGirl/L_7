@@ -14,21 +14,21 @@
         public static function Selectdata()
         {
             $data=array();
-            $p=crud::conect()->prepare('SELECT * FROM users');
+            $p=crud::database()->prepare('SELECT * FROM users');
             $p->execute();
            $data=$p->fetchAll(PDO::FETCH_ASSOC);
            return $data;
         }
         public static function delete($id)
         {
-            $p=crud::conect()->prepare('DELETE FROM users WHERE id=:id');
+            $p=crud::database()->prepare('DELETE FROM users WHERE id=:id');
             $p->bindValue(':id',$id);
             $p->execute();
         }
 public static function userDataPerId($id)
 {
     $data=array();
-    $p=crud::conect()->prepare('SELECT * FROM users WHERE id=:id');
+    $p=crud::database()->prepare('SELECT * FROM users WHERE id=:id');
     $p->bindValue(':id',$id);
     $p->execute();
    $data=$p->fetch(PDO::FETCH_ASSOC);
