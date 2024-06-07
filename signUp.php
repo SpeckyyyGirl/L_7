@@ -36,7 +36,7 @@ if (isset($_POST['signUP_button'])) {
         $p->execute();
         echo '<script>alert("Added successfully!");</script>';
     } else {
-        echo 'You have registered!';
+        echo '<script>alert("You have registered!");</script>';
     }
 }
 ?>
