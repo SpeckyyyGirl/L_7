@@ -1,47 +1,56 @@
 <?php
-    class crud{
-        public static function database()
-        {
-           try {
-            $con=new PDO('mysql:localhost=host; dbname=crud','root','');
-            return $con;
-           } catch (PDOException $error1) {
-                echo 'Something went wrong with your conection!'.$error1->getMessage();
-           }catch (Exception $error2){
-                 echo 'Generic error!'.$error2->getMessage();
-           }
+class Database {
+    private static $pdo = null;
+
+    public static function connect() {
+        if (self::$pdo === null) {
+            try {
+                self::$pdo = new PDO('mysql:host=localhost;dbname=crud', 'matric', 'password');
+                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die('Error: ' . $e->getMessage());
+            }
         }
-        public static function Selectdata()
-        {
-            $data=array();
-            $p=crud::database()->prepare('SELECT * FROM users');
-            $p->execute();
-           $data=$p->fetchAll(PDO::FETCH_ASSOC);
-           return $data;
-        }
-        public static function delete($id)
-        {
-            $p=crud::database()->prepare('DELETE FROM users WHERE id=:id');
-            $p->bindValue(':id',$id);
-            $p->execute();
-        }
-public static function userDataPerId($id)
-{
-    $data=array();
-    $p=crud::database()->prepare('SELECT * FROM users WHERE id=:id');
-    $p->bindValue(':id',$id);
-    $p->execute();
-   $data=$p->fetch(PDO::FETCH_ASSOC);
-   return $data;
+        return self::$pdo;
+    }
 }
 
+class Crud {
+    private static $conn = null;
 
-
-
+    public static function connect() {
+        if (self::$conn === null) {
+            try {
+                self::$conn = new PDO('mysql:host=localhost;dbname=crud', 'matric', 'password');
+                self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                echo 'Connection failed: ' . $e->getMessage();
+            }
+        }
+        return self::$conn;
+    }
+    public static function selectData() {
+        $conn = Database::connect();
+        $stmt = $conn->prepare('SELECT * FROM users');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function delete($matric) {
+        $conn = Database::connect();
+        $stmt = $conn->prepare('DELETE FROM users WHERE matric = :matric');
+        $stmt->bindParam(':matric', $matric);
+        return $stmt->execute();
+    }
 
-
-
-
+    public function update($matric, $name, $password, $role) {
+        $conn = Database::connect();
+        $stmt = $conn->prepare('UPDATE users SET name = :name, password = :password, role = :role WHERE matric = :matric');
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':matric', $matric);
+        return $stmt->execute();
+    }
+}
 ?>

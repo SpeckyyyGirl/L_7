@@ -21,17 +21,19 @@
                 $_SESSION['validate']=false;
                 $matric=$_POST['matric'];
                 $password=$_POST['password'];
-                $p=crud::database()->prepare('SELECT * FROM users WHERE matric=:m and password=:p');
+                
+                $p=Crud::connect()->prepare('SELECT * FROM users WHERE matric=:m and password=:p');
                 $p->bindValue(':m',$matric);
                 $p->bindValue(':p',$password);
                 $p->execute();
+                
                 $d=$p->fetchAll(PDO::FETCH_ASSOC);
                 if ($p->rowCount()>0) {
                     $_SESSION['matric']=$matric;
                     $_SESSION['password']=$password;
                     $_SESSION['validate']=true;
                     echo 'Successfully logged!';
-                    header('location:home.php');
+                    header('location:users.php');
                 }else {
                     echo'Make sure that you are registered!';
                 }

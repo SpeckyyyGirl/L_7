@@ -2,57 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./sign.css">
-    <title>Sign UP</title>
+    <link rel="stylesheet" href="./update.css">
+    <title>Update User</title>
 </head>
 <body>
     <?php
-        require('./database.php');
-        if (isset($_GET['id_up'])) {
-            $id_up=$_GET['id_up'];
-            $data=crud::userDataPerId($id_up);
-        }
-        if (isset($_POST['signUP_button'])) {
-            $name=$_POST['name'];
-            $lastName=$_POST['matric'];
-            $email=$_POST['password'];
-            $password=$_POST['role'];
-           if (!empty($_POST['name'])&& !empty($_POST['matric'])&& !empty($_POST['password'])&&!empty($_POST['role'])) {
-    
-                $p=crud::database()->prepare('UPDATE users SET name=:n,matric=:m,password=:p,role=:r where id=:id');
-                $p->bindValue(':id',$id_up);
-                $p->bindValue(':n', $name);
-                $p->bindValue(':m', $matric);
-                $p->bindValue(':p', $password);
-                $p->bindValue(':r',$role);
-                $p->execute();
-                echo 'Updated!';
+        session_start();
+        require('database.php');
 
+        if (isset($_GET['matric'])) {
+            $matric = $_GET['matric'];
+            $data = Crud::selectData();
+            $user = array_filter($data, function ($user) use ($matric) {
+                return $user['matric'] === $matric;
+            });
+            if (!empty($user)) {
+                $user = array_values($user)[0];
+            } else {
+                echo "User not found.";
+                exit;
             }
-           }
-        
+        }
 
+        if (isset($_POST['button'])) {
+            $matric = $_POST['matric'];
+            $name = $_POST['name'];
+            $password = $_POST['password'];
+            $role = $_POST['role'];
+
+            if (!empty($matric) && !empty($name) && !empty($password) && !empty($role)) {
+                $crud = new Crud();
+                $updateResult = $crud->update($matric, $name, $password, $role);
+
+                if ($updateResult) {
+                    $_SESSION['validate'] = true;
+                    header("Location: users.php");
+                    exit();
+                } else {
+                    echo 'Update failed.';
+                }
+            } else {
+                echo 'Please fill all the fields!';
+            }
+        }
     ?>
-    <div class="form">
-        <div class="title">
-            <p>Updating user data</p>
-        </div>
-        <form action="" method="post">
-            <input type="text" name="name" placeholder="Name" value="<?php if(isset($data)){
-echo $data['name'];
-            } ?>">
-            <input type="text" name="matric" placeholder="Matric" value="<?php if(isset($data)){
-echo $data['matric'];
-            } ?>">
-            <input type="password" name="password" placeholder="Password" value="<?php if(isset($data)){
-echo $data['password'];
-            } ?>">
-            <input type="text" name="role" placeholder="Role" value="<?php if(isset($data)){
-echo $data['role'];
-            } ?>">
-            <input type="submit" value="UPDATE" name="signUP_button"> 
+    <div class="signup-form">
+        <h2>Update User</h2>
+        <form action="" method="POST">
+            <label for="matric">Matric Number</label>
+            <input type="text" id="matric" name="matric" value="<?php echo isset($user['matric']) ? $user['matric'] : ''; ?>" readonly required>
+            
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="<?php echo isset($user['name']) ? $user['name'] : ''; ?>" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" value="<?php echo isset($user['password']) ? $user['password'] : ''; ?>" required>
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="" disabled>Select your role</option>
+                <option value="student" <?php echo isset($user['role']) && $user['role'] === 'student' ? 'selected' : ''; ?>>Student</option>
+                <option value="lecturer" <?php echo isset($user['role']) && $user['role'] === 'lecturer' ? 'selected' : ''; ?>>Lecturer</option>
+            </select>
+            <button type="submit" name="button">Update</button>
         </form>
     </div>
 </body>

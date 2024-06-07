@@ -37,16 +37,15 @@
             <p>Register Form</p>
         </div>
         <form action="" method="post">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="text" name="matric" placeholder="Matric" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <select name="role" required>
-            <option value="" disabled selected>Select your role</option>
-            <option value="Student">Student</option>
-            <option value="Lecturer">Lecturer</option>
-        </select>
-            <input type="password" name="confiPassword" placeholder="Confirm password">
+            <input type="text" name="matric" placeholder="Matric" required>
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="password" name="password" placeholder="Password" required>
             
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="Student">Student</option>
+                <option value="Lecturer">Lecturer</option>
+            </select>
             <input type="submit" value="Sign UP" name="signUP_button"> 
             <a href="./login.php">Do you have account? Sign in</a>
         </form>

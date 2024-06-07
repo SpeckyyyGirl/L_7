@@ -2,10 +2,10 @@
     position:center;
     padding: 0;
     margin: 0;
-    box-sizing: 1px solid black;
+    box-sizing: 2px solid black;
 }
 body{
-    background: white
+    background: rgb(255, 255, 255)
 }
 table{
     width: 90%;

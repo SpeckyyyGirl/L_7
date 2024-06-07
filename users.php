@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./table.css">
-    <title>Document</title>
+    <title>Users Page</title>
 </head>
 <body>
-   
+    <br><br><br><br>
+    <h1 style="text-align: center;">Hello! Welcome to Users Database.</h1><br>
     <table>
         <thead>
             <tr>
@@ -22,31 +23,31 @@
         </thead>
         <tbody>
         <?php
-        require('./database.php');
-            $p=crud::Selectdata();
-            if (isset($_GET['id'])) {
-                $id=$_GET['id'];
-                $e=crud::delete($id);
-            }
-            if (count( $p)>0) {
-                for ($i=0; $i < count( $p); $i++) { 
-                   echo '<tr>';
-                   foreach ( $p[$i] as $key => $value) {
-                    if ($key!='id') {
-                        echo '<td>'.$value.'</td>';
-                    }
-                    }
-                    ?>
-
-                    <td><a href="users.php?id=<?php echo $p[$i]['id'] ?>">Delete<img src="./trash.svg" alt="" srcset=""></a></td>
-                    <td><a href="update.php?id_up=<?php echo $p[$i]['id'] ?>">Update<img src="./edit.svg" alt="" srcset=""></a></td>
-                    <?php
-                    echo '</tr>';
+            require('database.php');
+            $data = Crud::selectData();
+            if (isset($_GET['delete'])) {
+                $matric = $_GET['delete'];
+                $result = (new Crud())->delete($matric);
+                if ($result) {
+                    echo "<script>alert('Record deleted successfully.'); window.location.href = 'users.php';</script>";
+                } else {
+                    echo "<script>alert('Error deleting record.');</script>";
                 }
             }
 
-
-    ?>
+            if (count($data) > 0) {
+                foreach ($data as $row) {
+                    echo '<tr>';
+                    echo '<td>' . $row['matric'] . '</td>';
+                    echo '<td>' . $row['name'] . '</td>';
+                    echo '<td>' . $row['password'] . '</td>';
+                    echo '<td>' . $row['role'] . '</td>';
+                    echo '<td><a href="?delete=' . $row['matric'] . '">Delete</a></td>';
+                    echo '<td><a href="update.php?matric=' . $row['matric'] . '">Update</a></td>';
+                    echo '</tr>';
+                }
+            }
+        ?>
         </tbody>
     </table>
 </body>
