@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./sign.css">
-    <title>Sign UPt</title>
+    <title>Register</title>
     <style>
         .form{
             width: 230px;
@@ -42,13 +42,13 @@
         ?>
     <div class="form">
         <div class="title">
-            <p>Login form</p>
+            <p>Login</p>
         </div>
         <form action="" method="post">
             <input type="text" name="matric" placeholder="Matric">
-            <input type="text" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password">
             <input type="submit" value="Login" name="login_button"> 
-            <a href="./signUP.php" style="position:relative; left:50px;top:-8px; font-size:14px">Click here to sign up</a>
+            <a href="./signUP.php" style="position:center; left:50px;top:-8px; font-size:14px">Click here to sign up</a>
         </form>
     </div>
 </body>

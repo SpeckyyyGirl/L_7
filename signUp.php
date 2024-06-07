@@ -6,30 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./sign.css">
     <title>Sign UP</title>
+
+    <style>
+        /* Center the message */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+        }
+</style>
+
 </head>
+
 <body>
-    <?php
-        require('./database.php');
-        if (isset($_POST['signUP_button'])) {
-            $name=$_POST['name'];
-            $matric=$_POST['matric'];
-            $password=$_POST['password'];
-            $role=$_POST['role'];
-           if (!empty($_POST['name'])&& !empty($_POST['matric'])&& !empty($_POST['password'])&&!empty($_POST['role'])) 
-           {
-            //if ($password== $confPassword) {
-                $p=Crud::connect()->prepare('INSERT INTO users(name,matric,password,role) VALUES(:n,:m,:p,:r)');
-                $p->bindValue(':n', $name);
-                $p->bindValue(':m', $matric);
-                $p->bindValue(':p', $password);
-                $p->bindValue(':r',$role);
-                $p->execute();
-                echo 'Added successfully!';
-            }else{
-                echo 'Password does not match!';
-            }
-           }
-    ?>
+<?php
+require('./database.php');
+if (isset($_POST['signUP_button'])) {
+    $name=$_POST['name'];
+    $matric=$_POST['matric'];
+    $password=$_POST['password'];
+    $role=$_POST['role'];
+    
+    if (!empty($_POST['name']) && !empty($_POST['matric']) && !empty($_POST['password']) && !empty($_POST['role'])) 
+    {
+        $p=Crud::connect()->prepare('INSERT INTO users(name,matric,password,role) VALUES(:n,:m,:p,:r)');
+        $p->bindValue(':n', $name);
+        $p->bindValue(':m', $matric);
+        $p->bindValue(':p', $password);
+        $p->bindValue(':r',$role);
+        $p->execute();
+        echo '<script>alert("Added successfully!");</script>';
+    } else {
+        echo 'You have registered!';
+    }
+}
+?>
+
     <div class="form">
         <div class="title">
             <p>Register Form</p>
