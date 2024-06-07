@@ -50,5 +50,9 @@
         ?>
         </tbody>
     </table>
+    <br>
+    <br>
+    <br>
+    <a href="./login.php" class="center-logout">Log Out</a>
 </body>
 </html>

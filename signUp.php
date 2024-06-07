@@ -14,11 +14,11 @@
             $name=$_POST['name'];
             $matric=$_POST['matric'];
             $password=$_POST['password'];
-            $confPassword=$_POST['confiPassword'];
             $role=$_POST['role'];
-           if (!empty($_POST['name'])&& !empty($_POST['matric'])&& !empty($_POST['password'])&&!empty($_POST['role'])) {
-            if ($password== $confPassword) {
-                $p=crud::database()->prepare('INSERT INTO users(name,matric,password,role) VALUES(:n,:m,:p,:r)');
+           if (!empty($_POST['name'])&& !empty($_POST['matric'])&& !empty($_POST['password'])&&!empty($_POST['role'])) 
+           {
+            //if ($password== $confPassword) {
+                $p=Crud::connect()->prepare('INSERT INTO users(name,matric,password,role) VALUES(:n,:m,:p,:r)');
                 $p->bindValue(':n', $name);
                 $p->bindValue(':m', $matric);
                 $p->bindValue(':p', $password);
@@ -29,8 +29,6 @@
                 echo 'Password does not match!';
             }
            }
-        }
-
     ?>
     <div class="form">
         <div class="title">
@@ -40,12 +38,7 @@
             <input type="text" name="matric" placeholder="Matric" required>
             <input type="text" name="name" placeholder="Name" required>
             <input type="password" name="password" placeholder="Password" required>
-            
-            <select id="role" name="role" required>
-                <option value="" disabled selected>Select your role</option>
-                <option value="Student">Student</option>
-                <option value="Lecturer">Lecturer</option>
-            </select>
+            <input type="text" name="role" placeholder="Role (Lecturer/Student)" required>
             <input type="submit" value="Sign UP" name="signUP_button"> 
             <a href="./login.php">Do you have account? Sign in</a>
         </form>

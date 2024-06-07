@@ -62,8 +62,8 @@
             <label for="role">Role</label>
             <select id="role" name="role" required>
                 <option value="" disabled>Select your role</option>
-                <option value="student" <?php echo isset($user['role']) && $user['role'] === 'student' ? 'selected' : ''; ?>>Student</option>
-                <option value="lecturer" <?php echo isset($user['role']) && $user['role'] === 'lecturer' ? 'selected' : ''; ?>>Lecturer</option>
+                <option value="Student" <?php echo isset($user['role']) && $user['role'] === 'Student' ? 'selected' : ''; ?>>Student</option>
+                <option value="Lecturer" <?php echo isset($user['role']) && $user['role'] === 'Lecturer' ? 'selected' : ''; ?>>Lecturer</option>
             </select>
             <button type="submit" name="button">Update</button>
         </form>
